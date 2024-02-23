@@ -52,7 +52,6 @@ Il est aussi possible de créer un fichier "Harvester.bat" permettant d'avoir un
 cd <emplacement du script>
 python3 Harvester.py
 pause
-
 ```
 
 Cela ouvrira l’application graphique Python, affichant l'adresse IP locale avec un bouton permettant d’effectuer le scan réseau.
