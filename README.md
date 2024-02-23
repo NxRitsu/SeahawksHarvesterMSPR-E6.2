@@ -28,7 +28,7 @@ git clone https://github.com/NxRitsu/SeahawksHarvesterMSPR-E6.2
 
 2. Exécuter la commande suivante :
 ```
-pip install python3-nmap ping3 psutil pysftp
+pip install python-nmap ping3 psutil pysftp
 ```
 Cela va alors télécharger tout les modules python nécessaire au bon fonctionnement
 
