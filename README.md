@@ -32,9 +32,7 @@ pip install python-nmap ping3 psutil pysftp
 ```
 Cela va alors télécharger tout les modules python nécessaire au bon fonctionnement
 
-3. Modifier le script Python afin d'indiquer si vous voulez scannez le wifi ou le filaire.
-
-4. Générer une paire de clés SSH :
+3. Générer une paire de clés SSH :
 ```
 ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -N ""
 ```
@@ -42,10 +40,10 @@ ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -N ""
 ssh-copy-id -i ~/.ssh/id_rsa.pub <user_ssh>@<adresse_ip>
 ```
 
-5. Exécutez cette commande pour lancer l'application graphique Python :
+4. Exécutez cette commande pour lancer l'application graphique Python :
 
 ```
-python3 ./Harvester.py
+python3 Harvester.py
 ```
 
 Cela ouvrira l’application graphique Python, affichant l'adresse IP locale avec un bouton permettant d’effectuer le scan réseau.
