@@ -49,7 +49,6 @@ class ApplicationReseauAvecNmap:
             adresse_ip = psutil.net_if_addrs()[self.nom_interface_lan][1].address  # Changer l'index selon l'interface
             return adresse_ip
         except Exception as e:
-            print(f"Erreur lors de la récupération de l'adresse IP de la carte réseau LAN : {e}")
             return self.obtenir_ip_locale()
 
     def obtenir_ip_locale(self):
