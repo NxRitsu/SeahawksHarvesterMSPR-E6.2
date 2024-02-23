@@ -45,6 +45,15 @@ ssh-copy-id -i ~/.ssh/id_rsa.pub <user_ssh>@<adresse_ip>
 ```
 python3 Harvester.py
 ```
+Il est aussi possible de créer un fichier "Harvester.bat" permettant d'avoir un raccourci sur le bureau : 
+
+```
+@ECHO OFF
+cd <emplacement du script>
+python3 Harvester.py
+pause
+
+```
 
 Cela ouvrira l’application graphique Python, affichant l'adresse IP locale avec un bouton permettant d’effectuer le scan réseau.
 
