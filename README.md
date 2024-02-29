@@ -26,21 +26,19 @@ Présenté sous forme d’une application graphique Python déployée sur un env
 git clone https://github.com/NxRitsu/SeahawksHarvesterMSPR-E6.2
 ```
 
-2. Exécuter la commande suivante :
-```
-pip install python-nmap ping3 psutil pysftp
-```
-Cela va alors télécharger tout les modules python nécessaire au bon fonctionnement
+2. Installer les dépendances listées dans le fichier "requirement.txt"
 
-3. Générer une paire de clés SSH :
+3. Modifier le script Python afin d'indiquer la carte réseau à scanner, l'adresse IP du serveur qui va recevoir le fichier XML, l'utilisateur et le chemin distant où arrivera le fichier XML sur le serveur.
+
+4. Générer une paire de clés SSH :
 ```
 ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -N ""
 ```
 ```
-ssh-copy-id -i ~/.ssh/id_rsa.pub <user_ssh>@<adresse_ip>
+type $env:USERPROFILE\.ssh\id_rsa.pub | ssh {IP-ADDRESS-OR-FQDN} "cat >> .ssh/authorized_keys"
 ```
 
-4. Exécutez cette commande pour lancer l'application graphique Python :
+5. Exécutez cette commande pour lancer l'application graphique Python :
 
 ```
 python3 Harvester.py
