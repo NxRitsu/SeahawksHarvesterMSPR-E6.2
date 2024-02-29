@@ -1,0 +1,7 @@
+# Liste des dépendances pour le projet
+ttkthemes
+PyQt5
+psutil
+netifaces
+nmap
+ping3
