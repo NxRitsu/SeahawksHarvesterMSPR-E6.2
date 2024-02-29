@@ -32,7 +32,7 @@ git clone https://github.com/NxRitsu/SeahawksHarvesterMSPR-E6.2
 
 4. Générer une paire de clés SSH :
 ```
-ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -N ""
+ssh-keygen -t rsa -b 4096
 ```
 ```
 type $env:USERPROFILE\.ssh\id_rsa.pub | ssh {IP-ADDRESS-OR-FQDN} "cat >> .ssh/authorized_keys"
