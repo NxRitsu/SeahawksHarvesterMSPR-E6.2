@@ -18,7 +18,7 @@ Présenté sous forme d’une application graphique Python déployée sur un env
  
 ## 🚀 Comment utiliser l’Application Seahawks Harvester ?
 
-⚠️ Uniquemnent sous Windows & Python 3.12 ⚠️
+⚠️ Uniquemnent sous Windows & Python 3.11 ⚠️
 
 1. Télécharger les fichiers :
 
