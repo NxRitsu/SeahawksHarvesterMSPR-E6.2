@@ -1,9 +1,9 @@
 import os
 import tkinter as tk
 from tkinter import ttk, scrolledtext
-from ping3 import ping
+import socket
+import pysftp
 import nmap
-import psutil
 from datetime import datetime
 import xml.etree.ElementTree as ET
 
@@ -19,8 +19,6 @@ class ApplicationReseauAvecNmap:
 
         self.label_ip = ttk.Label(self.root, text="Adresse IP LAN:")
         self.label_ip.pack(pady=10)
-
-        self.nom_interface_lan = 'Wi-Fi'  # Changer en fonction de l'interface réseau utilisée sur Windows
 
         self.bouton_scan = ttk.Button(self.root, text="Scanner le Réseau", command=self.scanner_reseau)
         self.bouton_scan.pack(pady=10)
@@ -46,14 +44,8 @@ class ApplicationReseauAvecNmap:
 
     def obtenir_ip_locale_lan(self):
         try:
-            adresse_ip = psutil.net_if_addrs()[self.nom_interface_lan][1].address  # Changer l'index selon l'interface
-            return adresse_ip
-        except Exception as e:
-            return self.obtenir_ip_locale()
-
-    def obtenir_ip_locale(self):
-        try:
-            adresse_ip = os.popen('ipconfig | findstr IPv4').read().split(':')[-1].strip()  # Utiliser ipconfig sur Windows
+            hostname = socket.gethostname()
+            adresse_ip = socket.gethostbyname(hostname)
             return adresse_ip
         except Exception as e:
             print(f"Erreur lors de la récupération de l'adresse IP : {e}")
@@ -80,22 +72,25 @@ class ApplicationReseauAvecNmap:
 
         self.label_resultats.insert(tk.END, texte_resultats)
 
-        latence = self.obtenir_latence_wan_ping3()
+        latence = self.obtenir_latence_wan_socket()
         self.label_latence.config(text=f"Latence WAN : {latence}")
 
-        chemin_fichier_local = "resultats_scan.xml"
+        chemin_fichier_local = r"<chemin_fichier_local>\resultats_scan.xml"
         self.sauvegarder_resultats_scan_xml(machines_connectees, ports_ouverts, latence)
         self.sauvegarder_resultats_scan_txt(machines_connectees, ports_ouverts, latence)
 
         self.transfere_resultats_scan_via_sftp(chemin_fichier_local)
 
-    def obtenir_latence_wan_ping3(self):
+    def obtenir_latence_wan_socket(self):
         cible_ping = 'www.google.com'
         try:
-            latence = ping(cible_ping, unit='ms')
-            return f"{latence:.2f} ms" if latence is not None else "N/A"
+            debut = datetime.now()
+            socket.gethostbyname(cible_ping)
+            fin = datetime.now()
+            latence = (fin - debut).total_seconds() * 1000
+            return f"{latence:.2f} ms"
         except Exception as e:
-            print(f"Erreur lors de la mesure de la latence WAN avec Ping3 : {e}")
+            print(f"Erreur lors de la mesure de la latence WAN avec Socket : {e}")
             return "N/A"
 
     def sauvegarder_resultats_scan_xml(self, machines_connectees, ports_ouverts, latence):
@@ -134,14 +129,19 @@ class ApplicationReseauAvecNmap:
             fichier.write(f"Latence WAN : {latence}\n")
 
     def transfere_resultats_scan_via_sftp(self, chemin_fichier_local):
-        adresse_du_nester = "192.168.1.88"
-        nom_utilisateur = "melvin"
-        chemin_distant = "/home/melvin/Nester/path_to_xml_files/1.xml"
+        adresse_du_nester = "<adresse_ip_nester>"
+        nom_utilisateur = "<compte_sur_le_nester>"
+        chemin_distant = "<chemin_distant>"
 
-        with pysftp.Connection(adresse_du_nester, username=nom_utilisateur) as sftp:
-            sftp.put(chemin_fichier_local, chemin_distant)
+        print("Chemin local du fichier:", chemin_fichier_local)  # Ajout d'une instruction d'impression
+        print("Chemin distant:", chemin_distant)  # Ajout d'une instruction d'impression
 
-        print(f"Fichier XML envoyé avec succès via SFTP vers {chemin_distant}")
+        with pysftp.Connection(adresse_du_nester, nom_utilisateur) as sftp:
+            try:
+                sftp.put(chemin_fichier_local, chemin_distant)
+                print(f"Fichier XML envoyé avec succès via SFTP vers {chemin_distant}")
+            except FileNotFoundError as e:
+                print("Erreur lors de l'envoi du fichier via SFTP:", e)
 
     def afficher_dernier_scan(self):
         try:
